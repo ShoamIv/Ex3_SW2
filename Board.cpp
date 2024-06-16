@@ -1,15 +1,27 @@
-//
-// Created by shoham on 6/4/24.
-//
+/*
+id:206698359    mail:shoamivgi1234@gmail.com
+*/
 
 #include <iostream>
+#include <iomanip>
 #include "Board.hpp"
 
+
+Board* Board::pt = nullptr;
+
+Board *Board::getBoard() {
+    if (pt==nullptr){
+        pt=new Board();
+        return pt;
+    }else
+    return pt;
+}
 
 Board::Board() {
         Set_board();
         Add_Hexagon();
 }
+
 void Board::Set_board() {
     for (int x = -2; x <= 2; x++) {        //x coordinate4
         for (int y = -8; y <= 8; y++) {
@@ -61,19 +73,31 @@ void Board::Set_board() {
     Point::set_rep(this->board_vertex);
 }
 
+bool comparePoints_Clock( Point *p1,  Point *p2) {
+    // First compare by y in descending order
+    if (p1->getY() > p2->getY()) {
+        return true;
+    } else if (p1->getY() < p2->getY()) {
+        return false;
+    } else {
+        // If y values are the same, compare by x in descending order
+        return p1->getX() > p2->getX();
+    }
+}
+
 void Board::Add_Hexagon() {
-    std::vector<std::vector<Point>> vertex_bank;
-    for(auto j : Point::representatives){
-        std::vector<Point>hex;
-        hex.push_back(j);
+    std::vector<std::vector<Point*>> vertex_bank;
+    for(auto &j : Point::representatives){
+        std::vector<Point*>hex;
+        hex.push_back(&j);
         for(auto & t : board_vertex){
             if(Point::Same_Tiles(j,t)){
-                hex.push_back(t);
+                hex.push_back(&t);
             }
         }
-        vertex_bank.emplace_back(hex);
+        std::sort(hex.begin(), hex.end(), comparePoints_Clock);
+        vertex_bank.emplace_back(std::move(hex));
     }
-
     int i=0;
     board_hexagons.emplace_back(5,Point::Brick,vertex_bank.at(i++));
     board_hexagons.emplace_back(6,Point::Wheat,vertex_bank.at(i++));
@@ -96,3 +120,21 @@ void Board::Add_Hexagon() {
     board_hexagons.emplace_back(9,Point::Wood,vertex_bank.at(i++));
 
 }
+
+
+
+
+
+
+
+
+
+std::vector<Hexagon> Board::getHexagon() {
+    return this->board_hexagons;
+}
+
+std::vector<Edge> Board::getEdge() {
+    return this->board_edges;
+}
+
+

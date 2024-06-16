@@ -1,26 +1,30 @@
-
+/*
+id:206698359    mail:shoamivgi1234@gmail.com
+*/
 
 #ifndef EX3_SW2_SETTLEMENT_HPP
 #define EX3_SW2_SETTLEMENT_HPP
-#include "Hexagon.hpp"
-#include "Player.hpp"
+#include "Board.hpp"
+
+
 /*
  * required resources: 1 of each: Brick,Wool,Wood,Wheat
  */
+class Player;
 class Settlement{
-    Player p;
-    Hexagon hexagon;
-    Point vertex;
-    int resource;
+protected:
+    Point* vertex{};
+    Player * owner{};
 
 public:
-    Settlement(const Player &p1, const Point& v, const Hexagon &hexagon);
-    Player GetOwner();
-    Hexagon getHex();
-    static bool ValidBuilding(Point& a);
-
-
+    Settlement()=default;
+    Settlement(Player *p, Point* v);
+    virtual ~Settlement();
+    Player* GetOwner();
+    Point* get_Vertex();
+    static bool ValidBuilding(Point* a);
 
 };
+
 
 #endif //EX3_SW2_SETTLEMENT_HPP

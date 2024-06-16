@@ -1,9 +1,11 @@
-
+/*
+id:206698359    mail:shoamivgi1234@gmail.com
+*/
 #include "Point.hpp"
 std::vector<Point> Point::representatives;
         // Default constructor
         Point::Point() {
-            this->x=0;this->y=0;
+            this->x=0;this->y=0;this->owner="";
         }
         // Parameterized constructor
         Point::Point(int X, int Y)  {
@@ -89,6 +91,20 @@ std::vector<Point> Point::representatives;
             }
         }
     }
+        std::sort(representatives.begin(), representatives.end(), [](const Point& a, const Point& b) {
+                if (a.y != b.y)
+                    return a.y < b.y; // Sort by y coordinate
+                return a.x < b.x; // If y is the same, sort by x coordinate
+            });
+}
+
+        void Point::set_res(int res) {
+            this->resource.at(res)++;
+        }
+
+void Point::print_p() const {
+    std::cout<<std::to_string(this->getX())
+             <<","<<std::to_string(this->getY());
 }
 
 

@@ -1,8 +1,10 @@
-
+/*
+id:206698359    mail:shoamivgi1234@gmail.com
+*/
 #include "Edge.hpp"
 
 
-Edge::Edge(Point &point1, Point &point2) {
+Edge::Edge(Point * point1, Point * point2) {
     this->v1=point1;
     this->v2=point2;
     owner=" ";
@@ -10,16 +12,17 @@ Edge::Edge(Point &point1, Point &point2) {
 
 void Edge::Contain(std::vector<Edge> &edges, Point& a, Point& b) {
     for(auto & edge : edges){
-        if(edge.v1==a && edge.v2==b){return;}
-        if(edge.v2==a && edge.v1==b){return;}
+        if(*edge.v1==a && *edge.v2==b){return;}
+        if(*edge.v2==a && *edge.v1==b){return;}
     }
-    Edge e(a,b);
+    Edge e(&a,&b);
     edges.emplace_back(e);
 }
 
-std::vector<Point> Edge::getPoints() {
-    std::vector<Point> points;
-    points.emplace_back(v1);points.emplace_back(v2);
+std::vector<Point*> Edge::getPoints() {
+    std::vector<Point*> points;
+    points.emplace_back(v1);
+    points.emplace_back(v2);
     return points;
 }
 
@@ -59,23 +62,25 @@ void Edge::set_neighbors(std::vector<Edge> &edges) {
 
         if(this->v1==edge.v1){
             this->neighbors_edge.emplace_back(edge);
-            this->v1.setNeighbors_Edge(&edge);
+            this->v1->setNeighbors_Edge(&edge);
         }
         if(this->v1==edge.v2){
             this->neighbors_edge.emplace_back(edge);
-            this->v1.setNeighbors_Edge(&edge);
+            this->v1->setNeighbors_Edge(&edge);
         }
         if(this->v2==edge.v1){
             this->neighbors_edge.emplace_back(edge);
-            this->v2.setNeighbors_Edge(&edge);
+            this->v2->setNeighbors_Edge(&edge);
         }
         if(this->v2==edge.v2){
             this->neighbors_edge.emplace_back(edge);
-            this->v2.setNeighbors_Edge(&edge);
+            this->v2->setNeighbors_Edge(&edge);
         }
 
     }
 }
+
+
 
 
 
