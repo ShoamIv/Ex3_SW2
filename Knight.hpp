@@ -11,8 +11,10 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class Knight: public DevCard {
 public:
     Knight();
-    void action(Player  & player,Board & board) const override;
+    void action(Player  & player,Board & board)  override;
     static void Check_Knight(Player & p);
+    ~Knight() = default;
+
 };
 
 

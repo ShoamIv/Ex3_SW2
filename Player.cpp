@@ -8,6 +8,8 @@ Player::Player() {
     this->name="";
     this->Winning_p=0;
     this->road_token=2;
+    this->Knight_Activation=false;
+    this->num_of_knights=0;
 }
 
 std::string Player::getName() {
@@ -57,7 +59,6 @@ void Player::Place_Settle(int hexagon, int vertex, Board& board) {
     // Store the pointer to the Settlement object
     Settlements.push_back(s);
     v->setOwner(this->getName());
-    v->set_building_type("Settle");
     this->Winning_p++;
 }
 
@@ -77,10 +78,9 @@ void Player::Place_Settle(Point *v){
     std::cout<<this->getName()<< " Place a settlement at: ";
     s->get_Vertex()->print_p();std::cout<<std::endl;
     // Store the pointer to the Settlement object
-    Settlements.push_back(s);
     v->setOwner(this->getName());
-    v->set_building_type("Settle");
     this->Winning_p++;
+    this->Settlements.push_back(s);
 }
 
 void Player::Place_Road(Point &p1,  Point &p2, Board& board) {
@@ -97,10 +97,10 @@ void Player::Place_Road(Point &p1,  Point &p2, Board& board) {
     std::cout<<"),(";
     p2.print_p(); std::cout<<")"<<std::endl;
     Roads.push_back(a);
-    a->getEdge().set_owner(this->getName());
+
 }
 
-void Player::Place_Road(Edge &e,Board& board){
+void Player::Place_Road(const Edge &e,Board& board){
     if(this->road_token == 0){
         if (!Check_Res("Settlement")) {
             std::cout << "You do not have enough resources." << std::endl;
@@ -115,7 +115,6 @@ void Player::Place_Road(Edge &e,Board& board){
     std::cout<<"),(";
     e.getPoints().at(1)->print_p(); std::cout<<")"<<std::endl;
     this->Roads.emplace_back(&a);
-    e.set_owner(this->getName());
 }
 
 void Player::Place_City(Settlement* settle) {
@@ -127,7 +126,14 @@ void Player::Place_City(Settlement* settle) {
     // Capture state from the old Settlement
     Point * location = (settle->get_Vertex());
     // Delete the old Setttlement
-    delete settle;
+    auto it = std::find_if(this->Settlements.begin(), this->Settlements.end(),
+        [&](Settlement* s) { return s->get_Vertex() == settle->get_Vertex(); });
+
+    if (it != this->Settlements.end()) {
+        this->Settlements.erase(it);
+        delete(settle);
+    }
+   
     // Allocate and replace with a new City
     City * city = new City(this, location);
     std::cout<<this->getName()<< "Place a City at: ";
@@ -159,9 +165,13 @@ void Player::playCard(const std::string& card , Board &board) {
         bool flag=false;
         for(int i=0; i<this->Cards.size(); i++){
             if(Cards.at(i)->Get_Card_name()==card){
+                DevCard* card_to_use = Cards[i];
                 Cards[i]->action(*this,board);
                 std::cout<<this->getName()<<" Used: "<<card<<std::endl;
+                if(card!="Knight"){
                 Cards.erase(Cards.begin() + i);
+                delete(card_to_use);
+                }
                 flag=true;
                 break;
             }
@@ -232,6 +242,7 @@ void Player::Trade(Player &p,const std::string& product1, const std::string& pro
                 }
                 flag = true;
                 p.resource.at(i) += amount1;
+                this->resource.at(i)-=amount1;;
                 for(int t=0; t<p.Cards.size(); t++) {
                     if (product2 == p.Cards.at(t)->Get_Card_name()) {
                         this->Cards.emplace_back(p.Cards.at(t));
@@ -250,11 +261,12 @@ void Player::Trade(Player &p,const std::string& product1, const std::string& pro
                         std::cout<<"Not Enough Cards!\n";break;
                     }
                      flag=true;
-                    this->resource.at(i)+=amount2;
-                    for(int t=0; t<this->Cards.size(); t++) {
-                        if (product1 == this->Cards.at(t)->Get_Card_name()) {
-                         p.Cards.emplace_back( this->Cards.at(t));
-                         this->Cards.erase(this->Cards.begin()+t);
+                     this->resource.at(j)+=amount2;
+              	     p.resource.at(j)-=amount2;
+                   	 for(int t=0; t<this->Cards.size(); t++) {
+                        	if (product1 == this->Cards.at(t)->Get_Card_name()) {
+                        	 p.Cards.emplace_back( this->Cards.at(t));
+                        		 this->Cards.erase(this->Cards.begin()+t);
                     }
                 }
                 Knight::Check_Knight(*this);
@@ -268,6 +280,7 @@ void Player::Trade(Player &p,const std::string& product1, const std::string& pro
                 if(!p.ensure_card_amount(product2,amount2)){
                     std::cout<<"Not Enough Cards!\n";break;
                 }
+         
                 flag=true;
                 for(int t=0; t<this->Cards.size(); t++) {
                     if (product1 == this->Cards.at(t)->Get_Card_name()) {
@@ -328,3 +341,36 @@ bool Player::ensure_card_amount(const std::string& card_name,int amount) {
     return amount==counter;
 }
 
+void Player::clean_up()
+{
+   
+    for(Settlement* settle: Settlements){
+         if(settle){
+        delete(settle);
+        }
+    }
+    std::cout<<"Delete at  at setlle\n";
+
+    for(City* city: Cities){
+         if(city){
+        delete(city);
+        }
+    }
+  
+    for(Road* road: Roads){
+         if(road)
+            delete(road);
+    }
+        std::cout<<"Delete at Roads\n";
+
+     for(DevCard* card: this->Cards){
+            if(card){
+                 auto * drawn=card;
+                 delete(card);
+            }
+        }
+    
+        Cards.clear();
+    
+
+}

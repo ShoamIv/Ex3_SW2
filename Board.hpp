@@ -18,6 +18,5 @@ public:
     static Board * getBoard();
     std::vector<Hexagon> getHexagon();
     std::vector<Edge> getEdge();
-
 };
 #endif //EX3_SW2_BOARD_HPP

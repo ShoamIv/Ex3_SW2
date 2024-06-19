@@ -16,7 +16,7 @@ class Road {
 
 public:
     Road(const Point& p1,const Point& p2,const std::string& id,Board& board);
-    Road(Edge & e,const std::string& id,Board& board);
+    Road(const Edge & e,const std::string& id,Board& board);
 
     Edge getEdge();
     bool ValidRoad();

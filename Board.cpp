@@ -23,7 +23,7 @@ Board::Board() {
 }
 
 void Board::Set_board() {
-    for (int x = -2; x <= 2; x++) {        //x coordinate4
+    for (int x = -2; x <= 2; x++) {        
         for (int y = -8; y <= 8; y++) {
             if (x % 2 == 0) {
                 if (y % 2 == 0) {
@@ -99,6 +99,7 @@ void Board::Add_Hexagon() {
         vertex_bank.emplace_back(std::move(hex));
     }
     int i=0;
+    
     board_hexagons.emplace_back(5,Point::Brick,vertex_bank.at(i++));
     board_hexagons.emplace_back(6,Point::Wheat,vertex_bank.at(i++));
     board_hexagons.emplace_back(11,Point::Wool,vertex_bank.at(i++));

@@ -11,7 +11,9 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class VictoryPoint: public DevCard {
 public:
     VictoryPoint();
-    void action(Player  & player,Board & board)const override;
+    void action(Player  & player,Board & board) override;
+    ~VictoryPoint()override = default ;
+
 };
 
 

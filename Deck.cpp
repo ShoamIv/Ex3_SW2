@@ -4,7 +4,17 @@ id:206698359    mail:shoamivgi1234@gmail.com
 #include "Deck.hpp"
 #include <random>
 #include <algorithm>
-std::vector<DevCard*> Deck::deck;
+
+std::vector<DevCard*>Deck::deck;
+Deck* pt = nullptr;
+
+Deck* Deck::getdeck() {
+    if (pt==nullptr){
+        pt=new Deck();
+        return pt;
+    }else
+    return pt;
+}
 
 Deck::Deck() {
     deck.emplace_back(new VictoryPoint());
@@ -23,9 +33,22 @@ Deck::Deck() {
     deck.emplace_back(new Knight());
     deck.emplace_back(new Knight());
     deck.emplace_back(new Knight());
-    deck.emplace_back(new Knight());
-    deck.emplace_back(new Knight());
     shuffle();
+}
+
+
+
+Deck::~Deck()
+{
+    std::cout<<"cleaing the deck\n";
+     for (int i = 0; i < deck.size(); ++i) {
+        
+        if (deck.at(i) != nullptr) {
+            delete deck.at(i);
+            deck.at(i) = nullptr; // Nullify the pointer to avoid double deletion issues
+        }
+    }
+    deck.clear(); // Optional: Clear the container after deleting all elements
 }
 
 void Deck::shuffle() {
@@ -43,9 +66,21 @@ DevCard* Deck::ExtractCard() {
        std::uniform_int_distribution<size_t>distribution(0,deck.size()-1);
        size_t random_index=distribution(generator);
        std::string name=deck.at(random_index)->Get_Card_name();
+        for(DevCard* card: deck){
+            if(card->Get_Card_name()==name){
+                 auto * drawn=card;
+                 deck.erase(deck.begin()+(int)random_index);
+                 return drawn;
+            }
+        }
+                return nullptr;
+
+        /*
        if(name=="Knight"){
            auto * drawn=new Knight();
+           auto * drawn=&deck.begin()+(int)random_index;
            deck.erase(deck.begin()+(int)random_index);
+
            return drawn;
        }
        if(name=="Monopoly"){
@@ -53,10 +88,10 @@ DevCard* Deck::ExtractCard() {
            deck.erase(deck.begin()+(int)random_index);
            return drawn;
         }
-        if(name=="Year of Plenty"){
+       if(name=="Year of Plenty"){
             auto * drawn=new Year_Of_Plenty();
-            deck.erase(deck.begin()+(int)random_index);
-            return drawn;
+           deck.erase(deck.begin()+(int)random_index);
+          return drawn;
         }
         if(name=="Victory Point"){
             auto * drawn=new VictoryPoint();
@@ -69,4 +104,14 @@ DevCard* Deck::ExtractCard() {
             return drawn;
         }
         return nullptr;
+        */
+    }
+
+void Deck::clean_up()
+{
+ if (pt != nullptr) {
+        delete pt;
+        pt = nullptr;
+    }
+   
 }

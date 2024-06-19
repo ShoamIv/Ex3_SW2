@@ -21,6 +21,8 @@ class Player {
     std::vector<City*> Cities;
     std::vector<DevCard*> Cards;
     int road_token;
+    bool Knight_Activation;
+    int num_of_knights;
 public:
     //constructor
     explicit Player();
@@ -29,6 +31,8 @@ public:
     int get_Winning_p() const;
     std::vector<int> get_Resource(){return this->resource;}
     int get_road_token(){return this->road_token;}
+    bool get_Active(){return this->Knight_Activation;}
+    int get_num_of_knights(){return this->num_of_knights;}
     std::vector<DevCard*> getCards(){return this->Cards;}
     std::vector<Road*> getRoads(){return this->Roads;}
     std::vector<Settlement*> getSettlements(){return this->Settlements;}
@@ -36,6 +40,7 @@ public:
     static std::vector<Player*> getPlayers(){return players;}
 
     void set_road_token(){this->road_token+=2;}
+    void set_Active(bool flag){this->Knight_Activation=flag;}
     void setName(std::string name1);
     void set_Winning_p(int increment);
     void set_Cards(DevCard* card){this->Cards.emplace_back(card);}
@@ -49,7 +54,7 @@ public:
     void Place_Settle(Point *v);
     void Place_City(Settlement *settle);
     void Place_Road(Point &p1,  Point &p2, Board& board);
-    void Place_Road(Edge &e,Board& board);
+    void Place_Road(const Edge &e,Board& board);
     void placeRoadInteractive(Board &board);
     void placeSettleInteractive(Board &board);
 
@@ -59,13 +64,14 @@ public:
     void playCard(const std::string& card ,Board &board);
     int roll();
 
-
     /*
      * trade actions
      */
     void offer(Player &p,const std::string& product1,const std::string& product2,int amount1,int amount2);
     void Trade(Player &p,const std::string& product1, [[maybe_unused]] const std::string& product2,int amount1,int amount2);
     bool ensure_card_amount(const std::string& card_name,int amount);
+
+    void clean_up();
 };
 
 

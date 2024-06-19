@@ -11,11 +11,13 @@ Road::Road(const Point& p1,const Point& p2, const std::string& id, Board& board)
         if(*board.getEdge().at(i).getPoints().at(0)==p1 && *board.getEdge().at(i).getPoints().at(1)==p2){
             this->edge=board.getEdge().at(i);
             this->owner_id=id;
+            this->edge.set_owner(id);
             flag=true;break;
         }
         if(*board.getEdge().at(i).getPoints().at(1)==p1 && *board.getEdge().at(i).getPoints().at(0)==p2){
             this->edge=board.getEdge().at(i);
             this->owner_id=id;
+            this->edge.set_owner(id);
             flag=true;break;
         }
     }
@@ -25,7 +27,7 @@ Road::Road(const Point& p1,const Point& p2, const std::string& id, Board& board)
     }
 }
 
-Road::Road(Edge &e, const std::string &id, Board &board) {
+Road::Road(const Edge &e, const std::string &id, Board &board) {
     if(!ValidRoad()){
         throw std::invalid_argument("You entered invalid Points for the Road.");
 

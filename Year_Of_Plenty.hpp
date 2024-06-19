@@ -10,7 +10,8 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class Year_Of_Plenty: public DevCard {
 public:
     Year_Of_Plenty();
-    void action(Player  & player,Board & board)const override;
+    void action(Player  & player,Board & board) override;
+    ~Year_Of_Plenty()override = default ;
 
 };
 

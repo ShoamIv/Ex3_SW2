@@ -7,6 +7,7 @@ id:206698359    mail:shoamivgi1234@gmail.com
 Settlement::Settlement( Player *p, Point* v) {
     this->owner=p;
     this->vertex=v;
+    this->vertex->set_building_type("Settle");
 }
 
 
@@ -19,6 +20,7 @@ Point * Settlement::get_Vertex() {
 }
 
 bool Settlement::ValidBuilding(Point* a) {
+    
     if(!a->getOwner().empty())return false;
     bool flag=false;
     for(int i=0; i<a->getNeighbors().size(); i++){

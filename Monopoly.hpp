@@ -9,7 +9,8 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class Monopoly: public DevCard  {
 public:
     Monopoly();
-    void action(Player  & player,Board & board)const override;
+    void action(Player  & player,Board & board) override;
+     ~Monopoly() = default ;
 
 };
 

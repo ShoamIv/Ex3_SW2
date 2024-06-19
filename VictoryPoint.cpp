@@ -8,7 +8,7 @@ id:206698359    mail:shoamivgi1234@gmail.com
 VictoryPoint::VictoryPoint()
         : DevCard(CardType::VICTORY_POINT, "Victory Point") {}
 
-void VictoryPoint::action(Player &player,Board & board)const {
+void VictoryPoint::action(Player &player,Board & board) {
 player.set_Winning_p(1);
 
 }

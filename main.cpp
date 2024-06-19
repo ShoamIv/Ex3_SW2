@@ -12,9 +12,13 @@ int main() {
     p2->setName("Amatzia");
     p3->setName("Avi");
 
+    Board * board=Board::getBoard();
+
+
     /*
      * Initiate Catan.
      */
+    
     Catan catan(p1,p2,p3);
     catan.Head_start();
 
@@ -60,16 +64,16 @@ int main() {
         p2->playCard(p2->getCards().at(0)->Get_Card_name(), *catan.getBoard());
     }
     catan.end_turn();
+    catan.game_over();
+    
+    p1->clean_up();
+    p2->clean_up();
+    p3->clean_up();
 
-/*
- *  interactive mode.
+    delete(p1);
+    delete(p2);
+    delete(p3);
+      
+  
 
-    bool game_over=false;
-     catan.Choose_Order();
-    while(!game_over){
-        Player p=catan.PlayTurn();     //essential plays.000000000000000000000000000000
-        catan.game_flow(p);
-        game_over=catan.WinnerWinnerChickenDinner();
-    }
-*/
 }

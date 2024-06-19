@@ -9,7 +9,7 @@ id:206698359    mail:shoamivgi1234@gmail.com
 
 Catan::Catan( Player *player1,Player *player2,Player *player3) {
     Board * board1=Board::getBoard();
-    Deck cards;
+    Deck *cards=Deck::getdeck();
     this->p1=player1;this->p2=player2;this->p3=player3;
     this->board= board1;
     this->deck=cards;
@@ -49,16 +49,20 @@ void Catan::Head_start() {
 
     this->p3->Place_Settle(17,1,*board);
     this->p3->Place_Settle(15,1,*board);
+    
 
     this->p1->Place_Road(*board->getHexagon().at(0).getVertex().at(1),*board->getHexagon().at(0).getVertex().at(3),*board);
     this->p1->Place_Road(*board->getHexagon().at(0).getVertex().at(1),*board->getHexagon().at(1).getVertex().at(0),*board);
-
+   
     this->p2->Place_Road(*board->getHexagon().at(3).getVertex().at(3),*board->getHexagon().at(0).getVertex().at(2),*board);
     this->p2->Place_Road(*board->getHexagon().at(4).getVertex().at(2),*board->getHexagon().at(4).getVertex().at(0),*board);
 
     this->p3->Place_Road(*board->getHexagon().at(9).getVertex().at(1),*board->getHexagon().at(9).getVertex().at(0),*board);
     this->p3->Place_Road(*board->getHexagon().at(9).getVertex().at(1),*board->getHexagon().at(9).getVertex().at(3),*board);
+    
     Catan::welcome_gift();
+
+
     /*
     std::cout << this->p1.getName();
     std::cout << " Please enter two settlements and two roads: " << std::endl;
@@ -101,7 +105,7 @@ bool Catan::WinnerWinnerChickenDinner() {
 
 void Catan::PlayTurn() {
     if(WinnerWinnerChickenDinner()){
-        return;
+        game_over();
     }
     Player * currentPlayer = Player::getPlayers().at(currentTurnIndex);
     std::cout<< currentPlayer->getName() << " turn\n";
@@ -123,7 +127,7 @@ void Catan::resource_distribution(int dice) {
                            p=this->p1;
                        }
                        else if(board->getHexagon().at(i).getVertex().at(j)->getOwner()==this->p2->getName()){
-                           p=this->p1;
+                           p=this->p2;
                        }
                        else   p=this->p3;
 
@@ -170,6 +174,11 @@ void Catan::welcome_gift() {
     }
 }
 
+void Catan::game_over()
+{
+        deck->clean_up();
+        delete(board);
+}
 
 #endif //EX3_SW2_GAMELOGIC_H
 

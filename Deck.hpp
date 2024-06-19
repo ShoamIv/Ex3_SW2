@@ -10,13 +10,18 @@ id:206698359    mail:shoamivgi1234@gmail.com
 #include "Year_Of_Plenty.hpp"
 
 class Deck {
+    Deck();
+    static std::vector<DevCard*> deck;
+
 
 public:
-    static std::vector<DevCard*> deck;
-    Deck();
+    static Deck * getdeck() ;
+    //static Deck * pt;
+    ~Deck();
     [[nodiscard]] static std::vector<DevCard*> getDeck() {return Deck::deck;}
     static void shuffle();
     static DevCard* ExtractCard();
+    void clean_up();
 };
 
 

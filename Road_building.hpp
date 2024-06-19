@@ -11,7 +11,9 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class Road_building: public DevCard {
 public:
     Road_building();
-    void action(Player & player,Board & board)const override;
+    void action(Player & player,Board & board) override;
+    ~Road_building() = default ;
+
 };
 
 

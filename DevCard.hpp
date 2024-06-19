@@ -28,8 +28,8 @@ public:
     [[nodiscard]] CardType Get_type() const {return this->type;}
     void set_name(std::string n){this->card_name=std::move(n);}
     std::string Get_Card_name(){return this->card_name;}
-    virtual void action(Player  & player,Board & board)const=0;
-
+    virtual void action(Player  & player,Board & board)=0;
+    virtual ~DevCard() = default;
 };
 
 

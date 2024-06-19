@@ -11,7 +11,7 @@ id:206698359    mail:shoamivgi1234@gmail.com
 class Catan{
     Player * p1,*p2,*p3;
     Board * board;
-    Deck deck;
+    Deck * deck;
     std::vector<int>turn_manage;
     int currentTurnIndex;
     void resource_distribution(int dice);
@@ -25,6 +25,7 @@ public:
     void PlayTurn();
     void end_turn(){currentTurnIndex = (currentTurnIndex + 1) % 3;}
     void game_flow(Player &p); // in interactive game this function will monitor plays.
+    void game_over();
 
 };
 #endif //EX3_SW2_CATAN_HPP

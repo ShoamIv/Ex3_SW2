@@ -19,7 +19,7 @@ void Edge::Contain(std::vector<Edge> &edges, Point& a, Point& b) {
     edges.emplace_back(e);
 }
 
-std::vector<Point*> Edge::getPoints() {
+std::vector<Point*> Edge::getPoints()const  {
     std::vector<Point*> points;
     points.emplace_back(v1);
     points.emplace_back(v2);

@@ -22,6 +22,7 @@ public:
     virtual ~Settlement();
     Player* GetOwner();
     Point* get_Vertex();
+
     static bool ValidBuilding(Point* a);
 
 };

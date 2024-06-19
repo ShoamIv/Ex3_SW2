@@ -24,7 +24,7 @@ public:
 
     [[nodiscard]] std::string getOwner() const{return this->owner;}
     [[nodiscard]] std::vector<Edge> get_neighbors_edge() const{return this->neighbors_edge;}
-    [[nodiscard]] std::vector<Point*> getPoints();
+    [[nodiscard]] std::vector<Point*> getPoints() const;
 
     void set_owner( std::string own){this->owner=std::move(own);}
     static void Contain(std::vector<Edge> &edges,Point& a,Point& b);
