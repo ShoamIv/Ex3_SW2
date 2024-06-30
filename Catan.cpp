@@ -148,6 +148,7 @@ void Catan::game_flow(Player &p) {
 
 
     /*
+     * function that control at interactive mode, control turns between players.
      * desired action, with Player p, the player who's current turn.
      */
 }
